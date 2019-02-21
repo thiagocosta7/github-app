@@ -1,1 +1,1 @@
-"# github-app" 
+GitHub App

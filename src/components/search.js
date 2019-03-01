@@ -1,20 +1,22 @@
 'use strict'
 
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-const Search = ({handleSearch}) => (
+const Search = ({isDisabled, handleSearch}) => (
     <div className='search'>
         <input
             type='search'
-            placeholder='Digite o nome do usuário'
+            placeholder='Digite o nome do usuário...'
+            disabled={isDisabled}
             onKeyUp={handleSearch}
         />
     </div>    
 )
 
 Search.propTypes = {
-    handleSearch: PropTypes.func.isRequired
+    handleSearch: PropTypes.func.isRequired,
+    isDisabled: PropTypes.bool.isRequired
 }
 
 export default Search

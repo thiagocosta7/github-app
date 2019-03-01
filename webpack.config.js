@@ -2,8 +2,12 @@
 
 const path = require('path')
 const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
+    node: {
+        fs: 'empty'
+    },
     mode: 'none',
     devtool: 'source-map',
     entry: [
@@ -18,7 +22,8 @@ module.exports = {
         publicPath: '/static/'
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin() //necessário para hot loader
+        new webpack.HotModuleReplacementPlugin(), //necessário para hot loader
+        new Dotenv()
     ],
     module: {
         rules: [{

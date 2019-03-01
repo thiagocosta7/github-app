@@ -5,28 +5,30 @@ import Search from './search'
 import UserInfo from './user-info'
 import Actions from './actions'
 import Repos from './repos'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 const AppContent = ({
         userinfo,
         repos,
         starred,
+        isFetching,
         handleSearch,
         getRepos,
         getStarred
     }) => (
     <div className='app'>
-        <Search handleSearch={handleSearch} />
-        {!!userinfo && <UserInfo userinfo={userinfo} />}
-        {!!userinfo && <Actions getRepos={getRepos} getStarred={getStarred} />}               
-        {!!repos.length &&
+        <Search isDisabled={isFetching} handleSearch={handleSearch}  />
+        {isFetching && <div className="loading"><img src="https://opoderdaleituracom.files.wordpress.com/2018/05/load.gif"></img></div>}
+        {isFetching && !!userinfo && <UserInfo userinfo={userinfo} />}
+        {isFetching && !!userinfo && <Actions getRepos={getRepos} getStarred={getStarred} />}               
+        {isFetching && !!repos.length &&
             <Repos
                 className="repos"
                 title="Repositórios:"
                 repos={repos}
             />
         }
-        {!!starred.length &&
+        {isFetching && !!starred.length &&
             <Repos
                 className="starred"
                 title="Favoritos:"
@@ -39,7 +41,11 @@ const AppContent = ({
 AppContent.propTypes = {
     userinfo: PropTypes.object,
     repos: PropTypes.array.isRequired,
-    starred: PropTypes.array.isRequired
+    starred: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    handleSearch: PropTypes.func.isRequired,
+    getRepos: PropTypes.func.isRequired,
+    getStarred: PropTypes.func.isRequired,    
 }
 
 export default AppContent

@@ -18,6 +18,9 @@ const AppContent = ({
     }) => (
     <div className='app'>
         <Search isDisabled={isFetching} handleSearch={handleSearch}  />
+        <hr/>
+        {!!userinfo && <div>{isFetching}</div>}
+        <hr/>
         {isFetching && <div className="loading"><img src="https://opoderdaleituracom.files.wordpress.com/2018/05/load.gif"></img></div>}
         {isFetching && !!userinfo && <UserInfo userinfo={userinfo} />}
         {isFetching && !!userinfo && <Actions getRepos={getRepos} getStarred={getStarred} />}               

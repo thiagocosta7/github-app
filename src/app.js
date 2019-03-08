@@ -102,18 +102,18 @@ class App extends Component {
         }
     }
     getRepos(type){
-        return (e) => { //High order function - função que recebe função
+        return () => { //High order function - função que recebe função
             const username = this.state.userinfo.login
-            fetch(this.getAPIRest(username, type))
-            .then(result => result.json())
-            .then((result) => {
-                this.setState({
-                    [type]: result.map((repo) => ({
-                        name: repo.name,
-                        link: repo.html_url,
-                    }))
-                })
-            })
+            axiosGitHubGraphQL
+            .post('', { query: this.getAPIGraphQRepos(username, type) })
+            // .then(result => console.log(result.data.data.user.starredRepositories.nodes[0].name)) 
+            .then(result => {
+                if (type == "repositories"){
+                    this.setState({ repos: result.data.data.user.repositories.nodes })
+                }else {
+                    this.setState({ starred: result.data.data.user.starredRepositories.nodes })
+                }
+            })            
         }
     }
     render(){
@@ -124,8 +124,8 @@ class App extends Component {
                 starred={this.state.starred}
                 isFetching={this.state.isFetching}                
                 handleSearch={(e) => this.handleSearch(e)}
-                getRepos={this.getRepos('repos')}
-                getStarred={this.getRepos('starred')} 
+                getRepos={this.getRepos('repositories')}
+                getStarred={this.getRepos('starredRepositories')} 
             />
         )
     }

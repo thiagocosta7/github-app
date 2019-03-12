@@ -3,6 +3,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const Dotenv = require('dotenv-webpack');
+const HtmlPlugin = require('html-webpack-plugin')
 
 module.exports = {
     node: {
@@ -18,27 +19,39 @@ module.exports = {
     ],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js',
-        publicPath: '/static/'
+        filename: '[name]-[hash].js',
+        publicPath: ''
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(), //necessário para hot loader
-        new Dotenv()
+        new Dotenv(),
+        new HtmlPlugin({
+            title: 'GitHub App',
+            template: path.join(__dirname, 'src', 'html', 'template.html')
+        })
     ],
     module: {
-        rules: [{
-            enforce: "pre",
-            test: /\.js$/,
-            exclude: /node_modules/,
-            include: /src/,
-            loader: "eslint-loader"         
-        }],
-        rules: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            include: /src/,
-            loader: 'babel', 
-        }]
+        rules: [
+            // {
+            //     enforce: "pre",
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     include: /src/,
+            //     loader: "eslint-loader"         
+            // },            
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                include: /src/,
+                loader: 'babel', 
+            },
+            {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                include: /src/,
+                loaders: ['style','raw'], 
+            },    
+        ]
     },
     resolveLoader: {
         moduleExtensions: ['-loader']
